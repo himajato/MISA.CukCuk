@@ -36,6 +36,11 @@ namespace MISA.CukCuk.api
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
+
+            services.AddControllers().AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

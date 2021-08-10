@@ -14,5 +14,7 @@ namespace MISA.CukCuk.api.Modal
 
         public int MyProperty { get; set; }
         #endregion
+
+
     }
 }
