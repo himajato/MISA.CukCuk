@@ -40,7 +40,7 @@ namespace MISA.CukCuk.api.Modal
 
         public bool IsStopFollow { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         public string CreatedBy { get; set; }
 
