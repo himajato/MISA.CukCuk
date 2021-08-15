@@ -4,11 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MISA.CukCuk.api.Modal;
 using System.Data;
 using MySqlConnector;
 using Dapper;
 using System.Text.RegularExpressions;
+using MISA.Core.Interfaces.Services;
+using MISA.Core.Entity;
 
 namespace MISA.CukCuk.api.Controllers
 { 
@@ -16,6 +17,12 @@ namespace MISA.CukCuk.api.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
+        ICustomerService _customerService;
+
+        public CustomersController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
         /// <summary>
         /// Api Lấy tất cả dữ liệu của tất cả khách hàng trong cơ sở dữ liệu
         /// created by: NHNGHIA (05/08/2021)
@@ -132,102 +139,13 @@ namespace MISA.CukCuk.api.Controllers
         {
             try
             {
-                // Khởi tạo ID mới cho nhân viên
-                customer.CustomerId = Guid.NewGuid();
-
-                //Truy cập vào database MF947_NHNGHIA_CukCuk
-                //1.Khai báo thông tin kết nối database: 
-                var connectionString = "Host = 47.241.69.179;"
-                                       + "Database = MF947_NHNGHIA_CukCuk;"
-                                       + "User Id = dev;"
-                                       + "Password = 12345678";
-
-                //2. Khởi tạo đối tượng kết nối với db
-                IDbConnection dbConnection = new MySqlConnection(connectionString);
-                // Khai báo dynamicParam: 
-                DynamicParameters parameters = new DynamicParameters();
-
-                //3. Lấy prop name và prop type: 
-                var columsName = string.Empty;
-                var columsParam = string.Empty;
-
-                var props = customer.GetType().GetProperties();
-
-                //Duyệt từng properties
-                foreach (var prop in props)
+               
+                var serviceResult = _customerService.Add(customer);
+                if (serviceResult.IsValid == true)
                 {
-                    //Lấy tên của prop
-                    var propName = prop.Name;
-
-                    //Lấy value của prop
-                    var propValue = prop.GetValue(customer);
-
-                    //Lấy kiểu dữ liệu
-                    var propType = prop.PropertyType;
-
-                    //Thêm param tương ứng với mỗi propName của đối tượng
-                    parameters.Add($"@{propName}", propValue);
-
-                    columsName += $"{propName},";
-                    columsParam += $"@{propName},";
+                    return StatusCode(201, serviceResult);
                 }
-
-                columsName = columsName.Remove(columsName.Length - 1, 1);
-                columsParam = columsParam.Remove(columsParam.Length - 1, 1);
-
-                //3.1 Validate dữ liệu
-                //Với email
-                var validate = Regex.IsMatch(customer.Email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
-                if (validate == false)
-                {
-                    var obj = new
-                    {
-                        devMsg = Properties.Resources.MISABadrequest_400_Email,
-                        userMsg = Properties.Resources.MISABadrequest_400_Email,
-                        errorCode = "Misa001",
-                        moreInfor = "google.com"
-                    };
-                    return StatusCode(400, obj);
-                }
-
-                //Với CustomerCode
-                //Kiểm tra rỗng
-                if(customer.CustomerCode == "")
-                {
-                    var obj = new
-                    {
-                        devMsg = Properties.Resources.MISABadrequest_400_CustomerCode_Empty,
-                        userMsg = Properties.Resources.MISABadrequest_400_CustomerCode_Empty,
-                        errorCode = "Misa001",
-                        moreInfor = "google.com"
-                    };
-                    return StatusCode(400, obj);
-                }
-
-                //Kiểm tra trùng
-                var sqlComman1 = "SELECT CustomerCode FROM Customer WHERE CustomerCode = @CustomerCode";
-                var check = dbConnection.QueryFirstOrDefault(sqlComman1, param: parameters);
-                if (check != null)
-                {
-                    var obj = new
-                    {
-                        devMsg = Properties.Resources.MISABadrequest_400_CustomerCode_Duplicate,
-                        userMsg = Properties.Resources.MISABadrequest_400_CustomerCode_Duplicate,
-                        errorCode = "Misa001",
-                        moreInfor = "google.com"
-                    };
-                    return StatusCode(400, obj);
-                }
-
-                var sqlComman = $"INSERT INTO Customer({columsName}) VALUES({columsParam})";
-
-                var rowEffect = dbConnection.Execute(sqlComman, param: parameters);
-
-                if(rowEffect != 0)
-                {
-                    return StatusCode(201);
-                }
-                return StatusCode(200, rowEffect);
+                return BadRequest(serviceResult);
             }
             catch(Exception ex)
             {
