@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace MISA.Core.Interfaces.Services
 {
-    public interface ICustomerService
+    public interface IBaseService
     {
         /// <summary>
-        /// Thêm mới khách hàng
+        /// Thêm mới thực thể
         /// </summary>
-        /// <param name="customer">Thông tin khách hàng</param>
+        /// <param name="entity">Thông tin thực thể</param>
         /// <returns>ServiceResult - kết quả xử lý nghiệp vụ</returns>
         /// created by: NHNGHIA (12/08/2021)
-        ServiceResult Add(Customer customer);
+        ServiceResult Add<MISAEntity>(MISAEntity entity);
 
         /// <summary>
-        /// Thêm mới khách hàng
+        /// Update thực thể
         /// </summary>
-        /// <param name="customer">Thông tin khách hàng</param>
-        /// <param name="customerId">Id của khách hàng</param>
+        /// <param name="entity">Thông tin thực thể</param>
+        /// <param name="entityId">Id của thực thể</param>
         /// <returns>ServiceResult - kết quả xử lý nghiệp vụ</returns>
-        ServiceResult Update(Customer customer, Guid customerId);   
+        ServiceResult Update<MISAEntiry>(MISAEntiry entity, Guid entityId);
     }
 }

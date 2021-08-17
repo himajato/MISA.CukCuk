@@ -45,8 +45,16 @@ namespace MISA.CukCuk.api
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
             });
+
+            //Service DI
             services.AddScoped<ICustomerService, CustomerService>();
+
+            //Repo DI
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+            //Base DI
+            services.AddScoped(typeof(IBaseService), typeof(BaseService));
+            services.AddScoped(typeof(IBaseRepository), typeof(BaseRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

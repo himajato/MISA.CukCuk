@@ -50,7 +50,6 @@ namespace MISA.Infrastructure.Repository
 
                 //Thêm param tương ứng với mỗi propName của đối tượng
                 parameters.Add($"@{propName}", propValue);
-
                 columsName += $"{propName},";
                 columsParam += $"@{propName},";
             }
