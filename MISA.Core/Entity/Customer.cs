@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MISA.Core.Atribute;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,16 @@ namespace MISA.Core.Entity
     public class Customer
     {
         #region Property
-        public Guid CustomerId { get; set; }
 
+        [MISARequire("Id khách hàng")]
+        public Guid CustomerId { get; set; }
+        [MISARequire("Mã khách hàng")]
         public string CustomerCode { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
+        [MISARequire("Họ tên đầy đủ khách hàng")]
         public string FullName { get; set; }
 
         public int? Gender { get; set; }
@@ -24,9 +27,9 @@ namespace MISA.Core.Entity
         public string Address { get; set; }
 
         public DateTime DateOfBirth { get; set; }
-
+        [MISARequire("Email của khách hàng")]
         public string Email { get; set; }
-
+        [MISARequire("Số điện thoại của khách hàng")]
         public string PhoneNumber { get; set; }
 
         public Guid CustomerGroupId { get; set; }

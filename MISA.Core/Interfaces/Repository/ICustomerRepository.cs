@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MISA.Core.Interfaces.Repository
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository : IBaseRepository
     {
         /// <summary>
         /// 
@@ -20,7 +20,7 @@ namespace MISA.Core.Interfaces.Repository
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
-        Customer GetById(Guid customerId);
+        object GetById(Guid customerId);
 
         /// <summary>
         /// 

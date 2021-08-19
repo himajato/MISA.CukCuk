@@ -23,10 +23,9 @@ namespace MISA.Core.Services
         public ServiceResult Add<MISAEntity>(MISAEntity entity)
         {
             //Validate dữ liệu
-
+            
             //Thực hiện thêm mới
            _serviceReult.Data = _baseRepository.Add<MISAEntity>(entity);
-
            return _serviceReult;
         }
 
@@ -37,6 +36,23 @@ namespace MISA.Core.Services
             //Thực hiện thêm mới
             _serviceReult.Data = _baseRepository.Update<MISAEntity>(entity, entityId);
             return _serviceReult;
+        }
+
+        public ServiceResult GetAll<MISAEntity>()
+        {
+            _serviceReult.Data = _baseRepository.GetAll<MISAEntity>();
+            return _serviceReult;
+        }
+
+        public ServiceResult GetById<MISAEntity>(Guid entityId)
+        {
+            _serviceReult.Data = _baseRepository.GetById<MISAEntity>(entityId);
+            return _serviceReult;
+        }
+
+        public bool ValidateEntity<MISAEntity>(MISAEntity entity)
+        {
+
         }
     }
 }

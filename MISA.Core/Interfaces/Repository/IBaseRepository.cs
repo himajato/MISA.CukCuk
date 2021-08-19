@@ -11,5 +11,8 @@ namespace MISA.Core.Interfaces.Repository
         List<MISAEntity> GetAll<MISAEntity>();
         int Add<MISAEntity>(MISAEntity entity);
         int Update<MISAEntity>(MISAEntity entity, Guid entityId);
+        object GetById<MISAEntity>(Guid entityId);
+        int Delete<MISAEntity>(Guid entityId);
+        bool CheckCodeDuplicate<MISAEntity>(string entityCode);
     }
 }

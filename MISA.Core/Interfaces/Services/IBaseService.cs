@@ -18,11 +18,19 @@ namespace MISA.Core.Interfaces.Services
         ServiceResult Add<MISAEntity>(MISAEntity entity);
 
         /// <summary>
-        /// Update thực thể
+        /// Sửa thực thể
         /// </summary>
         /// <param name="entity">Thông tin thực thể</param>
         /// <param name="entityId">Id của thực thể</param>
         /// <returns>ServiceResult - kết quả xử lý nghiệp vụ</returns>
         ServiceResult Update<MISAEntiry>(MISAEntiry entity, Guid entityId);
+
+        /// <summary>
+        /// Lấy dữ liệu thực thể theo id
+        /// </summary>
+        /// <typeparam name="MISAEntity">Kiểu thực thể VD: Employee, Customer</typeparam>
+        /// <param name="entityId">Id của thực thể</param>
+        /// <returns>ServiceResult - kết quả xử lý nghiệp vụ</returns>
+        ServiceResult GetById<MISAEntity>(Guid entityId);
     }
 }
