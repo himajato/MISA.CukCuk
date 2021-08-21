@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MISA.Core.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MISA.Core.Interfaces.Repository
 {
-    interface ICustomerGroupRepository
+    interface ICustomerGroupRepository 
     {
     }
 }

@@ -13,9 +13,9 @@ namespace MISA.CukCuk.api.Controllers
     [ApiController]
     public class BaseEntityController<MISAEntity> : ControllerBase
     {
-        IBaseService _baseService;
-        IBaseRepository _baseRepository;
-        public BaseEntityController(IBaseService baseService, IBaseRepository baseRepository)
+        IBaseService<MISAEntity> _baseService;
+        IBaseRepository<MISAEntity> _baseRepository;
+        public BaseEntityController(IBaseService<MISAEntity> baseService, IBaseRepository<MISAEntity> baseRepository)
         {
             _baseService = baseService;
             _baseRepository = baseRepository;
@@ -29,7 +29,7 @@ namespace MISA.CukCuk.api.Controllers
         {
             try
             {
-                var entity = _baseRepository.GetAll<MISAEntity>();
+                var entity = _baseRepository.GetAll();
                 if (entity != null)
                 {
                     return StatusCode(200, entity);
@@ -46,8 +46,8 @@ namespace MISA.CukCuk.api.Controllers
                 {
                     devMsg = ex.Message,
                     userMsg = Properties.Resources.MISAException_Error,
-                    errorCode = "Misa001",
-                    moreInfor = "google.com"
+                    errorCode = Core.Properties.Resources.MISAErroCode,
+                    moreInfor = Core.Properties.Resources.MISAErroMoreInfor,
                 };
                 return StatusCode(500, obj);
             }
@@ -58,10 +58,10 @@ namespace MISA.CukCuk.api.Controllers
         {
             try
             {
-                var entity = _baseService.GetById<MISAEntity>(entityId);
-                if (entity.IsValid == true)
+                var entity = _baseService.GetById(entityId);
+                if ((int)entity.Data > 0)
                 {
-                    return StatusCode(200, entity.Data);
+                    return StatusCode(200, entity);
                 }
                 else
                 {
@@ -74,8 +74,8 @@ namespace MISA.CukCuk.api.Controllers
                 {
                     devMsg = ex.Message,
                     userMsg = Properties.Resources.MISAException_Error,
-                    errorCode = "Misa001",
-                    moreInfor = "google.com"
+                    errorCode = Core.Properties.Resources.MISAErroCode,
+                    moreInfor = Core.Properties.Resources.MISAErroMoreInfor
                 };
                 return StatusCode(500, obj);
             }
@@ -86,7 +86,7 @@ namespace MISA.CukCuk.api.Controllers
         {
             try
             {
-                var rowEffect = _baseRepository.Delete<MISAEntity>(entityId);
+                var rowEffect = _baseRepository.Delete(entityId);
                 if (rowEffect > 0)
                 {
                     return StatusCode(200, rowEffect);
@@ -102,8 +102,8 @@ namespace MISA.CukCuk.api.Controllers
                 {
                     devMsg = ex.Message,
                     userMsg = Properties.Resources.MISAException_Error,
-                    errorCode = "Misa001",
-                    moreInfor = "google.com"
+                    errorCode = MISA.Core.Properties.Resources.MISAErroCode,
+                    moreInfor = MISA.Core.Properties.Resources.MISAErroMoreInfor,
                 };
                 return StatusCode(500, obj);
             }
@@ -114,14 +114,21 @@ namespace MISA.CukCuk.api.Controllers
         {
             try
             {
-                var rowEffect = _baseService.Add<MISAEntity>(entity);
-                if ((int)rowEffect.Data > 0)
+                var rowEffect = _baseService.Add(entity);
+                if (rowEffect.IsValid)
                 {
-                    return StatusCode(201, rowEffect.Data);
+                    if ((int)rowEffect.Data > 0)
+                    {
+                        return StatusCode(201, rowEffect.Data);
+                    }
+                    else
+                    {
+                        return StatusCode(204);
+                    }
                 }
                 else
                 {
-                    return StatusCode(204);
+                    return BadRequest(rowEffect.Data);
                 }
             }
             catch (Exception ex)
@@ -130,8 +137,8 @@ namespace MISA.CukCuk.api.Controllers
                 {
                     devMsg = ex.Message,
                     userMsg = Properties.Resources.MISAException_Error,
-                    errorCode = "Misa001",
-                    moreInfor = "google.com"
+                    errorCode = Core.Properties.Resources.MISAErroCode,
+                    moreInfor = Core.Properties.Resources.MISAErroMoreInfor
                 };
                 return StatusCode(500, obj);
             }
@@ -142,14 +149,20 @@ namespace MISA.CukCuk.api.Controllers
         {
             try
             {
-                var rowEffect = _baseService.Update<MISAEntity>(entity,entityId);
-                if ((int)rowEffect.Data > 0)
+                var rowEffect = _baseService.Update(entity,entityId);
+                if (rowEffect.IsValid)
                 {
-                    return StatusCode(200, rowEffect);
-                }
-                else
+                    if ((int)rowEffect.Data > 0)
+                    {
+                        return StatusCode(200, rowEffect);
+                    }
+                    else
+                    {
+                        return StatusCode(204);
+                    }
+                } else
                 {
-                    return StatusCode(204);
+                    return BadRequest(rowEffect.Data);
                 }
             }
             catch (Exception ex)
@@ -158,8 +171,8 @@ namespace MISA.CukCuk.api.Controllers
                 {
                     devMsg = ex.Message,
                     userMsg = Properties.Resources.MISAException_Error,
-                    errorCode = "Misa001",
-                    moreInfor = "google.com"
+                    errorCode = Core.Properties.Resources.MISAErroCode,
+                    moreInfor = Core.Properties.Resources.MISAErroMoreInfor
                 };
                 return StatusCode(500, obj);
             }

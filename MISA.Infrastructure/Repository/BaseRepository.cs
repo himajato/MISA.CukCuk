@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using MISA.Core.Interfaces.Repository;
 using MySqlConnector;
 using System;
@@ -10,22 +11,30 @@ using System.Threading.Tasks;
 
 namespace MISA.Infrastructure.Repository
 {
-    public class BaseRepository : IBaseRepository
+    public class BaseRepository<MISAEntity> : IBaseRepository<MISAEntity>
     {
-        public int Add<MISAEntity>(MISAEntity entity)
+        public readonly string _connectionString;
+
+        public BaseRepository(IConfiguration configuration)
+        {   
+            _connectionString = configuration.GetConnectionString("MisaCukCukDatabase");
+        }
+        /// <summary>
+        /// Thêm thực thể vào db
+        /// </summary>
+        /// <param name="entity">Thực thể</param>
+        /// <returns></returns>
+        public int Add(MISAEntity entity)
         {
             //// Khởi tạo ID mới cho nhân viên
             var className = typeof(MISAEntity).Name;
 
             //Truy cập vào database MF947_NHNGHIA_CukCuk
             //1.Khai báo thông tin kết nối database: 
-            var connectionString = "Host = 47.241.69.179;"
-                                   + "Database = MF947_NHNGHIA_CukCuk;"
-                                   + "User Id = dev;"
-                                   + "Password = 12345678";
+           
 
             //2. Khởi tạo đối tượng kết nối với db
-            using (IDbConnection dbConnection = new MySqlConnection(connectionString))
+            using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
             {
                 // Khai báo dynamicParam: 
                 DynamicParameters parameters = new DynamicParameters();
@@ -70,40 +79,41 @@ namespace MISA.Infrastructure.Repository
             }
         }
 
-        public List<MISAEntity> GetAll<MISAEntity>()
+        /// <summary>
+        /// Lấy hết dữ liệu trong db
+        /// </summary>
+        /// <returns>Danh sách thực thể trong db</returns>
+        public List<MISAEntity> GetAll()
         {
             var className = typeof(MISAEntity).Name;
 
             //Truy cập vào database MF947_NHNGHIA_CukCuk
-            //1.Khai báo thông tin kết nối database: 
-            var connectionString = "Host = 47.241.69.179;"
-                                   + "Database = MF947_NHNGHIA_CukCuk;"
-                                   + "User Id = dev;"
-                                   + "Password = 12345678";
-
-            //2. Khởi tạo đối tượng kết nối với db
-            using(IDbConnection dbConnection = new MySqlConnection(connectionString))
+            //Khai báo thông tin kết nối database: 
+          
+            // Khởi tạo đối tượng kết nối với db
+            using(IDbConnection dbConnection = new MySqlConnection(_connectionString))
             {
-                //3. Lấy dữ liệu:
+                //3. Lấy dữ liệu: (thêm try catch)
                 var sqlCommand = $"SELECT * FROM {className}";
                 var entity = dbConnection.Query<MISAEntity>(sqlCommand);
-
                 return (List<MISAEntity>)entity;
             }
         }
-
-        public object GetById<MISAEntity>(Guid entityId)
+        
+        /// <summary>
+        /// Lấy thực thể theo Id 
+        /// </summary>
+        /// <param name="entityId">Id của thực thể</param>
+        /// <returns>Thực thể có Id muốn lấy</returns>
+        public object GetById(Guid entityId)
         {
             var className = typeof(MISAEntity).Name;
             //Truy cập vào database MF947_NHNGHIA_CukCuk
-            //1.Khai báo thông tin kết nối database: 
-            var connectionString = "Host = 47.241.69.179;"
-                                   + "Database = MF947_NHNGHIA_CukCuk;"
-                                   + "User Id = dev;"
-                                   + "Password = 12345678";
+            //Khai báo thông tin kết nối database: 
+            
 
-            //2. Khởi tạo đối tượng kết nối với db CustomerId = @CustomerIdParam
-            using(IDbConnection dbConnection = new MySqlConnection(connectionString))
+            // Khởi tạo đối tượng kết nối với db CustomerId = @CustomerIdParam
+            using(IDbConnection dbConnection = new MySqlConnection(_connectionString))
             {
                 //3. Lấy dữ liệu:
                 var sqlCommand = $"SELECT * FROM {className} WHERE {className}Id = @{className}IdParam";
@@ -116,25 +126,26 @@ namespace MISA.Infrastructure.Repository
             }  
         }
 
-        public int Update<MISAEntity>(MISAEntity entity, Guid entityId)
+        /// <summary>
+        /// Sửa thông tin thực thể
+        /// </summary>
+        /// <param name="entity">Thông tin thực thể muốn sửa</param>
+        /// <param name="entityId">Id của thực thể</param>
+        /// <returns>số hàng bị thay đổi: 1 - thành công, 0 - thất bại</returns>
+        public int Update(MISAEntity entity, Guid entityId)
         {
             var className = typeof(MISAEntity).Name;
             //Truy cập vào database MF947_NHNGHIA_CukCuk
-            //1.Khai báo thông tin kết nối database: 
-            var connectionString = "Host = 47.241.69.179;"
-                                   + "Database = MF947_NHNGHIA_CukCuk;"
-                                   + "User Id = dev;"
-                                   + "Password = 12345678";
-
-            //2. Khởi tạo đối tượng kết nối với db
+           
+            //. Khởi tạo đối tượng kết nối với db
             //IDbConnection dbConnection = new MySqlConnection(connectionString);
-            using (IDbConnection dbConnection = new MySqlConnection(connectionString))
+            using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
             {
                 // Khai báo dynamicParam: 
                 DynamicParameters parameters = new DynamicParameters();
 
 
-                //3. Lấy prop name và prop type: 
+                // Lấy prop name và prop type: 
                 //var columsName = string.Empty;
                 var columsParam = string.Empty;
 
@@ -212,20 +223,21 @@ namespace MISA.Infrastructure.Repository
                 return rowEffect;
             }
         }
-
-        public int Delete<MISAEntity>(Guid entityId)
+        
+        /// <summary>
+        /// Xóa thực thể theo Id
+        /// </summary>
+        /// <param name="entityId">Id của thực thể</param>
+        /// <returns>Số dòng bị thay đổi: != 0 - thành công, = 0 Thất bại</returns>
+        public int Delete(Guid entityId)
         {
             var className = typeof(MISAEntity).Name;
 
             //Truy cập vào database MF947_NHNGHIA_CukCuk
             //1.Khai báo thông tin kết nối database: 
-            var connectionString = "Host = 47.241.69.179;"
-                                   + "Database = MF947_NHNGHIA_CukCuk;"
-                                   + "User Id = dev;"
-                                   + "Password = 12345678";
 
             //2. Khởi tạo đối tượng kết nối với db
-            using (IDbConnection dbConnection = new MySqlConnection(connectionString))
+            using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
             {
                 // Khai báo dynamicParam: 
                 DynamicParameters parameters = new DynamicParameters();
@@ -239,31 +251,34 @@ namespace MISA.Infrastructure.Repository
             }
         }
 
-        public bool CheckCodeDuplicate<MISAEntity>(string entityCode)
+        /// <summary>
+        /// Kiểm tra trùng mã thực thể
+        /// </summary>
+        /// <typeparam name="MISAEntity">Kiểu thực thể</typeparam>
+        /// <param name="entityCode">mã thực thể</param>
+        /// <returns>kết quả kiểm tra: true - Không có mã trùng, false có mã trùng</returns>
+        public bool CheckCodeDuplicate(string entityCode)
         {
+            // Nên check theo CustomAtrribute
             var className = typeof(MISAEntity).Name;
 
             //Truy cập vào database MF947_NHNGHIA_CukCuk
             //1.Khai báo thông tin kết nối database: 
-            var connectionString = "Host = 47.241.69.179;"
-                                   + "Database = MF947_NHNGHIA_CukCuk;"
-                                   + "User Id = dev;"
-                                   + "Password = 12345678";
 
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add($"@{className}Code", entityCode);
 
             //2. Khởi tạo đối tượng kết nối với db
-            using (IDbConnection dbConnection = new MySqlConnection(connectionString))
+            using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
             {
-                var sqlComman = $"GET {className}Code FROM {className} WHERE {className}Code = @{className}Code";
-                var isExsist = dbConnection.Execute(sqlComman, parameters);
+                var sqlComman = $"SELECT {className}Code FROM {className} WHERE {className}Code = @{className}Code";
+                var isExsist = dbConnection.QueryFirstOrDefault<string>(sqlComman, parameters);
 
-                if(isExsist != 0)
+                if(isExsist != null)
                 {
-                    return true;
+                    return false;
                 }
-                return false;
+                return true;
             }
         }
     }

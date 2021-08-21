@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace MISA.CukCuk.api.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : BaseEntityController<Employee>
+    public class PostitionsController : BaseEntityController<Position>
     {
-        public EmployeesController(IBaseService<Employee> employeeService, IBaseRepository<Employee> employeeRepository):base(employeeService, employeeRepository)
+
+        public PostitionsController(IBaseService customerService,IBaseRepository<Position> repository): base(customerService,repository)
         {
 
         }

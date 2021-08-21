@@ -22,7 +22,7 @@ namespace MISA.Core.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace MISA.Core.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MISA.Core.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace MISA.Core.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,18 @@ namespace MISA.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mã thực thể đã tồn tại, vui lòng nhập lại.
+        /// </summary>
+        public static string MISABadrequest_400_CodeDuplicate {
+            get {
+                return ResourceManager.GetString("MISABadrequest_400_CodeDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mã nhân viên đã tồn tại, vui lòng nhập lại.
         /// </summary>
-        internal static string MISABadrequest_400_CustomerCode_Duplicate {
+        public static string MISABadrequest_400_CustomerCode_Duplicate {
             get {
                 return ResourceManager.GetString("MISABadrequest_400_CustomerCode_Duplicate", resourceCulture);
             }
@@ -72,7 +81,7 @@ namespace MISA.Core.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Mã nhân viên không được để trống, vui lòng nhập lại.
         /// </summary>
-        internal static string MISABadrequest_400_CustomerCode_Empty {
+        public static string MISABadrequest_400_CustomerCode_Empty {
             get {
                 return ResourceManager.GetString("MISABadrequest_400_CustomerCode_Empty", resourceCulture);
             }
@@ -81,16 +90,34 @@ namespace MISA.Core.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Email không đúng định dạng, vui lòng nhập lại.
         /// </summary>
-        internal static string MISABadrequest_400_Email {
+        public static string MISABadrequest_400_Email {
             get {
                 return ResourceManager.GetString("MISABadrequest_400_Email", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MISAError-001.
+        /// </summary>
+        public static string MISAErroCode {
+            get {
+                return ResourceManager.GetString("MISAErroCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Google.com.
+        /// </summary>
+        public static string MISAErroMoreInfor {
+            get {
+                return ResourceManager.GetString("MISAErroMoreInfor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Có  lỗi xảy ra, vui lòng liên hệ MISA !.
         /// </summary>
-        internal static string MISAException_Error {
+        public static string MISAException_Error {
             get {
                 return ResourceManager.GetString("MISAException_Error", resourceCulture);
             }
@@ -99,9 +126,18 @@ namespace MISA.Core.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Không có dữ liệu nào tồn tại !.
         /// </summary>
-        internal static string MISANoContent_204 {
+        public static string MISANoContent_204 {
             get {
                 return ResourceManager.GetString("MISANoContent_204", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dữ liệu này không được phép để trống.
+        /// </summary>
+        public static string MISARequireFieldEmpty {
+            get {
+                return ResourceManager.GetString("MISARequireFieldEmpty", resourceCulture);
             }
         }
     }

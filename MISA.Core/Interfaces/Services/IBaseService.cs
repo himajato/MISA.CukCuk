@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MISA.Core.Interfaces.Services
 {
-    public interface IBaseService
+    public interface IBaseService<MISAEntity>
     {
         /// <summary>
         /// Thêm mới thực thể
@@ -15,7 +15,7 @@ namespace MISA.Core.Interfaces.Services
         /// <param name="entity">Thông tin thực thể</param>
         /// <returns>ServiceResult - kết quả xử lý nghiệp vụ</returns>
         /// created by: NHNGHIA (12/08/2021)
-        ServiceResult Add<MISAEntity>(MISAEntity entity);
+        ServiceResult Add(MISAEntity entity);
 
         /// <summary>
         /// Sửa thực thể
@@ -23,7 +23,7 @@ namespace MISA.Core.Interfaces.Services
         /// <param name="entity">Thông tin thực thể</param>
         /// <param name="entityId">Id của thực thể</param>
         /// <returns>ServiceResult - kết quả xử lý nghiệp vụ</returns>
-        ServiceResult Update<MISAEntiry>(MISAEntiry entity, Guid entityId);
+        ServiceResult Update(MISAEntity entity, Guid entityId);
 
         /// <summary>
         /// Lấy dữ liệu thực thể theo id
@@ -31,6 +31,6 @@ namespace MISA.Core.Interfaces.Services
         /// <typeparam name="MISAEntity">Kiểu thực thể VD: Employee, Customer</typeparam>
         /// <param name="entityId">Id của thực thể</param>
         /// <returns>ServiceResult - kết quả xử lý nghiệp vụ</returns>
-        ServiceResult GetById<MISAEntity>(Guid entityId);
+        ServiceResult GetById(Guid entityId);
     }
 }

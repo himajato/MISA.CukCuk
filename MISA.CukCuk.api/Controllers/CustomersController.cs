@@ -18,9 +18,9 @@ namespace MISA.CukCuk.api.Controllers
     [ApiController]
     public class CustomersController : BaseEntityController<Customer>
     {
-        //ICustomerService _customerService;
+        //ICustomerService _customerService; e bao a show may cai waring ra đi e xem
         //ICustomerRepository _customerRepository;
-        public CustomersController(IBaseService customerService, IBaseRepository customerRepository) : base(customerService, customerRepository)
+        public CustomersController(ICustomerService customerService, IBaseRepository<Customer> baseRepository) : base(customerService, baseRepository)
         {
             //_customerService = customerService;
             //_customerRepository = customerRepository;

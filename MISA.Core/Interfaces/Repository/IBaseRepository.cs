@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MISA.Core.Interfaces.Repository
 {
-    public interface IBaseRepository
+    public interface IBaseRepository<MISAEntity>
     {
-        List<MISAEntity> GetAll<MISAEntity>();
-        int Add<MISAEntity>(MISAEntity entity);
-        int Update<MISAEntity>(MISAEntity entity, Guid entityId);
-        object GetById<MISAEntity>(Guid entityId);
-        int Delete<MISAEntity>(Guid entityId);
-        bool CheckCodeDuplicate<MISAEntity>(string entityCode);
+        List<MISAEntity> GetAll();
+        int Add(MISAEntity entity);
+        int Update(MISAEntity entity, Guid entityId);
+        object GetById(Guid entityId);
+        int Delete(Guid entityId);
+        bool CheckCodeDuplicate(string entityCode);
     }
 }

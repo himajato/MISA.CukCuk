@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MISA.Core.Entity
 {
-    class Department
+    public class Department
     {
     }
 }

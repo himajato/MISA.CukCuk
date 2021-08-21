@@ -52,9 +52,9 @@ namespace MISA.CukCuk.api
             //Repo DI
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
-            //Base DI
-            services.AddScoped(typeof(IBaseService), typeof(BaseService));
-            services.AddScoped(typeof(IBaseRepository), typeof(BaseRepository));
+            //Base DI het loi roi a chay thu di ok e
+            services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
